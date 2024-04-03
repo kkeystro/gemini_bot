@@ -37,7 +37,10 @@ async def generate_text(uid):
                     for part in candidate.get("content", {}).get("parts", []):
                         if "text" in part:
                             text_parts.append(part["text"])
-                    return ''.join(text_parts)
+                    if text_parts:
+                        return ''.join(text_parts)
+                    else:
+                        return "Ur momma gay"
                 # print("Generated text:", data.get("candidates"))
             else:
                 print("Error:", response.status, await response.text())

@@ -16,7 +16,7 @@ m1 = "Ответы даю максимально развёрнуто и под�
 
 @router.message(Command("start"))
 async def cmd_start(message: Message):
-    # await storage.pushl(key=str(message.from_user.id), value=s(m1, "model"))
+    await storage.delkeys(key=str(message.from_user.id))
     await message.answer(
         "Добро пожаловать в мир генеративного ИИ!",
     )
@@ -24,7 +24,7 @@ async def cmd_start(message: Message):
 
 @router.message(Command("clear"))
 async def cmd_start(message: Message):
-    # await storage.pushl(key=str(message.from_user.id), value=s(m1, "user"))
+    await storage.delkeys(key=str(message.from_user.id))
     await message.answer(
         "История очищена",
     )
@@ -41,3 +41,4 @@ async def message_with_text(message: Message):
         await msg.edit_text(response)
     except Exception:
         traceback.print_exc()
+        await storage.delkeys(key=str(message.from_user.id))

@@ -29,3 +29,6 @@ class ReStorage:
 
     async def rangel(self, key: str):
         return await client.lrange(self._get_key(key), 0, -1)
+
+    async def delkey(self, key: str):
+        await client.delete(self._get_key(key))
