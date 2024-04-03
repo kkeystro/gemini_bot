@@ -1,10 +1,13 @@
 import aiohttp
 import asyncio
 import json
-from os import environ
+from db.redb import ReStorage
+from serialiser import deserialise as d
+
+storage = ReStorage(chat_id=67857)
 
 
-async def generate_text(input_text):
+async def generate_text(input_text, uid):
     api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCzzvmLiQPhl0CHfq3fJYQXEqpGf5JCt4g"
     headers = {
         "Content-Type": "application/json"
@@ -18,9 +21,10 @@ async def generate_text(input_text):
                     {
                         "text": input_text
                     }
-
-                ]
-            }
+                ],
+                "role": "user"
+            },
+            d(await storage.rangel(str(uid)))
         ],
     }
 
@@ -36,10 +40,9 @@ async def generate_text(input_text):
                             text_parts.append(part["text"])
                     # Join all text parts for this candidate and print
                     return ''.join(text_parts)
-                #print("Generated text:", data.get("candidates"))
+                # print("Generated text:", data.get("candidates"))
             else:
                 print("Error:", response.status, await response.text())
 
-
 # Run the async function
-#asyncio.run(generate_text(input_text="What is the future of artificial intelligence?"))
+# asyncio.run(generate_text(input_text="What is the future of artificial intelligence?"))
