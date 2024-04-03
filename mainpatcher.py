@@ -11,12 +11,10 @@ router = Router()
 
 storage = ReStorage(chat_id=67857)
 
-m1 = "Ответы даю максимально развёрнуто и подробно, на русском языке, если не необходимо или указано обратное"
-
 
 @router.message(Command("start"))
 async def cmd_start(message: Message):
-    await storage.delkeys(key=str(message.from_user.id))
+    await storage.delkey(key=str(message.from_user.id))
     await message.answer(
         "Добро пожаловать в мир генеративного ИИ!",
     )
@@ -24,7 +22,7 @@ async def cmd_start(message: Message):
 
 @router.message(Command("clear"))
 async def cmd_start(message: Message):
-    await storage.delkeys(key=str(message.from_user.id))
+    await storage.delkey(key=str(message.from_user.id))
     await message.answer(
         "История очищена",
     )
@@ -41,4 +39,4 @@ async def message_with_text(message: Message):
         await msg.edit_text(response)
     except Exception:
         traceback.print_exc()
-        await storage.delkeys(key=str(message.from_user.id))
+        await storage.delkey(key=str(message.from_user.id))

@@ -14,16 +14,6 @@ async def generate_text(uid):
     }
     payload = {
         "contents": [
-
-            # {
-            #     "parts": [
-            #
-            #         {
-            #             "text": input_text
-            #         }
-            #     ],
-            #     "role": "user"
-            # },
             d(await storage.rangel(str(uid)))
         ],
     }
@@ -41,8 +31,6 @@ async def generate_text(uid):
                         return ''.join(text_parts)
                     else:
                         return "Ur momma gay"
-                # print("Generated text:", data.get("candidates"))
             else:
                 print("Error:", response.status, await response.text())
 
-# asyncio.run(generate_text(input_text="What is the future of artificial intelligence?"))
