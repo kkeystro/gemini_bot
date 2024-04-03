@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1af10fb1-a0af-4c12-be18-59349b36d166" name="Changes" comment="minor changes">
-      <change afterPath="$PROJECT_DIR$/serialiser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="1af10fb1-a0af-4c12-be18-59349b36d166" name="Changes" comment="I TOTALLY FUCKED UP ALL I CAN AND HAPPY WITH THAT">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/redb.py" beforeDir="false" afterPath="$PROJECT_DIR$/db/redb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/mainpatcher.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainpatcher.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rest.py" beforeDir="false" afterPath="$PROJECT_DIR$/rest.py" afterDir="false" />
     </list>
@@ -37,18 +33,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "Python.bot.executor": "Run",
-    "Python.list.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.rest.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;Python.bot.executor&quot;: &quot;Run&quot;,
+    &quot;Python.list.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.rest.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\somet\PycharmProjects\gemini_bot" />
@@ -108,8 +104,8 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="API_KEY" value="AIzaSyCzzvmLiQPhl0CHfq3fJYQXEqpGf5JCt4g" />
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="API_KEY" value="AIzaSyCzzvmLiQPhl0CHfq3fJYQXEqpGf5JCt4g" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -166,7 +162,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712139945904</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="I TOTALLY FUCKED UP ALL I CAN AND HAPPY WITH THAT">
+      <option name="closed" value="true" />
+      <created>1712157946856</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1712157946856</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -187,6 +191,7 @@
     <MESSAGE value="initial commit" />
     <MESSAGE value="updated for new async calls" />
     <MESSAGE value="minor changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
+    <MESSAGE value="I TOTALLY FUCKED UP ALL I CAN AND HAPPY WITH THAT" />
+    <option name="LAST_COMMIT_MESSAGE" value="I TOTALLY FUCKED UP ALL I CAN AND HAPPY WITH THAT" />
   </component>
 </project>
