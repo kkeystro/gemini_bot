@@ -37,7 +37,7 @@ async def update_key_usage(api_key):
 async def get_good_key():
     async with aiosqlite.connect(DB_FILE) as db:
         cur = await db.execute('''SELECT key FROM api_key_usage
-                                  WHERE (strftime('%s', 'now') - strftime('%s', last_usage_time)) > 30
+                                  WHERE (unixepoch('now') - unixepoch(last_usage_time)) > 30
                                   AND usage_count_24h <= 1000
                                   ORDER BY last_usage_time ASC
                                   LIMIT 1
@@ -63,4 +63,3 @@ async def main():
     await setup_db()
 
 
-asyncio.run(main())

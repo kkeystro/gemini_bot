@@ -22,7 +22,7 @@ async def generate_text(uid):
         async with session.post(api_url, headers=headers, data=json.dumps(payload)) as response:
             if response.status == 200:
                 data = await response.json()
-                if not "Error" in data:
+                if not "Error" in data.keys():
                     for candidate in data.get("candidates", []):
                         text_parts = []
                         for part in candidate.get("content", {}).get("parts", []):
@@ -34,5 +34,7 @@ async def generate_text(uid):
                             return "Ur momma gay"
                 else:
                     print("Error:", response.status, await response.text())
+                    return "Error"
             else:
                 print("Error:", response.status, await response.text())
+                return "Error"
