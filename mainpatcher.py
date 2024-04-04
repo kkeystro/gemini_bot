@@ -1,5 +1,5 @@
 import traceback
-from keys.keysdb import add_api_key
+from keys.keysdb import add_api_key, get_good_key
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message
@@ -34,6 +34,13 @@ async def cmd_add(message: Message):
     await add_api_key(command_text)
     await message.answer(
         "Ключ добавлен",
+    )
+
+
+@router.message(Command("get"))
+async def cmd_add(message: Message):
+    await message.answer(
+        await get_good_key(),
     )
 
 

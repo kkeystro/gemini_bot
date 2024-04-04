@@ -43,6 +43,7 @@ async def get_good_key():
                                   LIMIT 1
                                ''')
         row = await cur.fetchone()
+        await update_key_usage(row[0])
         return row[0] if row else "AIzaSyCzzvmLiQPhl0CHfq3fJYQXEqpGf5JCt4g"
 
 
