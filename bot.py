@@ -2,7 +2,7 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from os import environ
-
+from keys.keysdb import main as m
 
 import mainpatcher
 
@@ -18,3 +18,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+    asyncio.run((m()))

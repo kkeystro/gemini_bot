@@ -1,5 +1,5 @@
 import traceback
-
+from keys.keysdb import add_api_key
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message
@@ -21,10 +21,19 @@ async def cmd_start(message: Message):
 
 
 @router.message(Command("clear"))
-async def cmd_start(message: Message):
+async def cmd_clear(message: Message):
     await storage.delkey(key=str(message.from_user.id))
     await message.answer(
         "История очищена",
+    )
+
+
+@router.message(Command("add"))
+async def cmd_add(message: Message):
+    command_text = ' '.join(message.text.split()[1:])
+    await add_api_key(command_text)
+    await message.answer(
+        "Ключ добавлен",
     )
 
 
@@ -34,7 +43,6 @@ async def message_with_text(message: Message):
         msg = await message.answer("Думаю...")
         await storage.pushr(key=str(message.from_user.id), value=s(message.text, "user"))
         response = await generate_text(uid=message.from_user.id)
-        # await storage.pushr(key=str(message.from_user.id), value=s(message.text, "user"))
         await storage.pushr(key=str(message.from_user.id), value=s(response, "model"))
         await msg.edit_text(response)
     except Exception:

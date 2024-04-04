@@ -1,14 +1,14 @@
 import aiohttp
-import asyncio
 import json
 from db.redb import ReStorage
 from serialiser import deserialise as d
+from keys.keysdb import get_good_key as key
 
 storage = ReStorage(chat_id=67857)
 
 
 async def generate_text(uid):
-    api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCzzvmLiQPhl0CHfq3fJYQXEqpGf5JCt4g"
+    api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={str(await key())}"
     headers = {
         "Content-Type": "application/json"
     }
