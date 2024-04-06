@@ -19,7 +19,7 @@ async def add_api_key(api_key):
     async with aiosqlite.connect(DB_FILE) as db:
         await db.execute('''INSERT OR IGNORE INTO api_key_usage (key, last_usage_time, usage_count_24h)
                             VALUES (?, ?, 0)
-                        ''', (api_key, time.time()))
+                        ''', (api_key, int(time.time())))
         await db.commit()
 
 
@@ -30,14 +30,14 @@ async def update_key_usage(api_key):
                             ON CONFLICT(key) DO UPDATE SET
                             usage_count_24h = usage_count_24h + 1,
                             last_usage_time = ?
-                        ''', (api_key, time.time(), time.time()))
+                        ''', (api_key, int(time.time()), int(time.time())))
         await db.commit()
 
 
 async def get_good_key():
     async with aiosqlite.connect(DB_FILE) as db:
         cur = await db.execute('''SELECT key FROM api_key_usage
-                                  WHERE (strftime('%s', 'now') - strftime('%s', last_usage_time)) > 30
+                                  WHERE (strftime('%s', 'now') - last_usage_time) > 30
                                   AND usage_count_24h <= 1000
                                   ORDER BY last_usage_time ASC
                                   LIMIT 1
@@ -45,7 +45,7 @@ async def get_good_key():
         row = await cur.fetchone()
         if row:
             await update_key_usage(row[0])
-        return row[0] if row else "High load, please wait 30 seconds"
+        return row[0] if row else "High load, please wait"
 
 
 async def reset_daily_counts():
@@ -63,3 +63,4 @@ async def auto_reset_daily_counts():
 async def main():
     await setup_db()
 
+asyncio.run(main())

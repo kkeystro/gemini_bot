@@ -32,7 +32,7 @@ async def cmd_clear(message: Message):
 @router.message(Command("add"))
 async def cmd_add(message: Message):
     command_text = ' '.join(message.text.split()[1:])
-    if check_key(command_text):
+    if await check_key(command_text):
         await add_api_key(command_text)
         await message.answer(
             "Ключ добавлен",
