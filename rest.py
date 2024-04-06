@@ -8,7 +8,11 @@ storage = ReStorage(chat_id=67857)
 
 
 async def generate_text(uid):
-    api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={str(await key())}"
+    akey=str(await key())
+    if akey != "High load, please wait 30 seconds":
+        api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={akey}"
+    else:
+        return "High load, please wait 30 seconds"
     headers = {
         "Content-Type": "application/json"
     }

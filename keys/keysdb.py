@@ -1,6 +1,6 @@
 import aiosqlite
 import asyncio
-from datetime import datetime
+import time
 
 DB_FILE = 'api_keys.db'
 
@@ -10,7 +10,7 @@ async def setup_db():
         await db.execute('''CREATE TABLE IF NOT EXISTS api_key_usage (
                             key TEXT PRIMARY KEY,
                             usage_count_24h INTEGER DEFAULT 0,
-                            last_usage_time TIMESTAMP
+                            last_usage_time INTEGER
                         )''')
         await db.commit()
 
@@ -19,7 +19,7 @@ async def add_api_key(api_key):
     async with aiosqlite.connect(DB_FILE) as db:
         await db.execute('''INSERT OR IGNORE INTO api_key_usage (key, last_usage_time, usage_count_24h)
                             VALUES (?, ?, 0)
-                        ''', (api_key, datetime.now()))
+                        ''', (api_key, time.time()))
         await db.commit()
 
 
@@ -30,21 +30,22 @@ async def update_key_usage(api_key):
                             ON CONFLICT(key) DO UPDATE SET
                             usage_count_24h = usage_count_24h + 1,
                             last_usage_time = ?
-                        ''', (api_key, datetime.now(), datetime.now()))
+                        ''', (api_key, time.time(), time.time()))
         await db.commit()
 
 
 async def get_good_key():
     async with aiosqlite.connect(DB_FILE) as db:
         cur = await db.execute('''SELECT key FROM api_key_usage
-                                  WHERE (unixepoch('now') - unixepoch(last_usage_time)) > 30
+                                  WHERE (strftime('%s', 'now') - strftime('%s', last_usage_time)) > 30
                                   AND usage_count_24h <= 1000
                                   ORDER BY last_usage_time ASC
                                   LIMIT 1
                                ''')
         row = await cur.fetchone()
-        await update_key_usage(row[0])
-        return row[0] if row else "AIzaSyCzzvmLiQPhl0CHfq3fJYQXEqpGf5JCt4g"
+        if row:
+            await update_key_usage(row[0])
+        return row[0] if row else "High load, please wait 30 seconds"
 
 
 async def reset_daily_counts():
@@ -61,5 +62,4 @@ async def auto_reset_daily_counts():
 
 async def main():
     await setup_db()
-
 

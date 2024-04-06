@@ -4,15 +4,15 @@ from aiogram.client.default import DefaultBotProperties
 from os import environ
 from keys.keysdb import main as m
 import mainpatcher
-from middlewares.userlock import UserLockMiddleware
+#from middlewares.userlock import UserLockMiddleware
 
 
 async def main():
     default = DefaultBotProperties(parse_mode=None)
-    bot = Bot(token=str(environ.get("BOT_TOKEN")), default=default)
+    bot = Bot(token=environ.get("BOT_TOKEN"))
     dp = Dispatcher()
     dp.include_routers(mainpatcher.router)
-    dp.message.middleware(UserLockMiddleware())
+    #dp.message.middleware(UserLockMiddleware())
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
