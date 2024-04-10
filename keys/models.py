@@ -12,10 +12,10 @@ class APIKeyUsage(Base):
     last_usage_time = Column(Integer)
 
 
-engine = create_async_engine('sqlite+aiosqlite:///api_keys.db', echo=True)
-Session = async_sessionmaker(bind=engine)
+engine = create_async_engine('sqlite+aiosqlite:///api_keys.db', echo=False)
+Session = async_sessionmaker(engine)
 
 
 async def setup_db():
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all(engine))
+        await conn.run_sync(Base.metadata.create_all)

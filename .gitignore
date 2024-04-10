@@ -3,9 +3,5 @@
 .idea
 .idea/workspace.xml
 api_keys.db
-__pycache__/serialiser.cpython-312.pyc
-db/__pycache__/redb.cpython-312.pyc
-__pycache__/rest.cpython-312.pyc
-__pycache__/mainpatcher.cpython-312.pyc
-keys/__pycache__/keysdb.cpython-312.pyc
-keys/__pycache__/checker.cpython-312.pyc
+__pycache__
+.env

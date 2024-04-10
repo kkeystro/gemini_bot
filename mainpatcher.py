@@ -5,13 +5,11 @@ from aiogram import Router, F, types
 from aiogram.filters import Command
 from aiogram.types import Message
 from rest import generate_text
-from db.redb import ReStorage
+import db.redb as storage
 from serialiser import serialise as s
 from inlineapi import respond
 
 router = Router()
-
-storage = ReStorage(chat_id=67857)
 
 
 @router.message(Command("start"))
@@ -65,13 +63,20 @@ async def message_with_text(message: Message):
 
 @router.inline_query()
 async def inline_echo(inline_query: types.InlineQuery):
-    text = inline_query.query or 'Пустой запрос'
-    response_text = await respond(text)  # Вызов функции respond
+    response = 'Pls enter your request'
+
+    if inline_query.query:
+        try:
+            response = await respond(inline_query.query)
+        except Exception:
+            traceback.print_exc()
+            response = "Text generation error"
 
     articles = [types.InlineQueryResultArticle(
-        id='1',
-        title='Ответить',
-        input_message_content=types.InputTextMessageContent(message_text=response_text)
-    )]
+            id='text_response',
+            title=response,
+            input_message_content=types.InputTextMessageContent(message_text='Request: "' + inline_query.query + '"\n\nResponse:\n' + response)
+        )]
 
-    await inline_query.answer_inline_query(inline_query.id, results=articles)
+    await inline_query.answer(articles)
+    

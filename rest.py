@@ -1,10 +1,8 @@
 import aiohttp
 import json
-from db.redb import ReStorage
+import db.redb as storage
 from serialiser import deserialise as d
 from keys.requests import get_good_key as key
-
-storage = ReStorage(chat_id=67857)
 
 
 async def generate_text(uid):
