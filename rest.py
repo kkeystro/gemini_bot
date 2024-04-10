@@ -2,7 +2,7 @@ import aiohttp
 import json
 from db.redb import ReStorage
 from serialiser import deserialise as d
-from keys.keysdb import get_good_key as key
+from keys.requests import get_good_key as key
 
 storage = ReStorage(chat_id=67857)
 

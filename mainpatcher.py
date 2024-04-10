@@ -1,12 +1,13 @@
 import traceback
-from keys.keysdb import add_api_key, get_good_key
+from keys.requests import add_api_key, get_good_key
 from keys.checker import check_key
-from aiogram import Router, F
+from aiogram import Router, F, types
 from aiogram.filters import Command
 from aiogram.types import Message
 from rest import generate_text
 from db.redb import ReStorage
 from serialiser import serialise as s
+from inlineapi import respond
 
 router = Router()
 
@@ -60,3 +61,17 @@ async def message_with_text(message: Message):
         traceback.print_exc()
         await msg.edit_text("Text generation error")
         await storage.delkey(key=str(message.from_user.id))
+
+
+@router.inline_query()
+async def inline_echo(inline_query: types.InlineQuery):
+    text = inline_query.query or 'Пустой запрос'
+    response_text = await respond(text)  # Вызов функции respond
+
+    articles = [types.InlineQueryResultArticle(
+        id='1',
+        title='Ответить',
+        input_message_content=types.InputTextMessageContent(message_text=response_text)
+    )]
+
+    await inline_query.answer_inline_query(inline_query.id, results=articles)

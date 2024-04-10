@@ -2,7 +2,7 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from os import environ
-from keys.keysdb import main as m
+from keys.models import setup_db as m
 import mainpatcher
 #from middlewares.userlock import UserLockMiddleware
 
