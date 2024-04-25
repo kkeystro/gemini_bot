@@ -5,18 +5,19 @@ from aiogram.enums.parse_mode import ParseMode
 import logging
 import sys
 from keys.models import setup_db
-import mainpatcher
+from routers import mainpatcher, commands
 from config_reader import config
-#from middlewares.userlock import UserLockMiddleware
+
+from middlewares.userlock import ThrottlingMiddleware
 
 
 async def main():
     await setup_db()
-    default = DefaultBotProperties(parse_mode=ParseMode.MARKDOWN_V2)
-    bot = Bot(token=config.bot_token.get_secret_value()) #, default=default)
+    default = DefaultBotProperties(parse_mode=ParseMode.HTML)
+    bot = Bot(token=config.bot_token.get_secret_value(), default=default)
     dp = Dispatcher()
-    dp.include_routers(mainpatcher.router)
-    #dp.message.middleware(UserLockMiddleware())
+    dp.include_routers(commands.router, mainpatcher.router)
+    dp.message.middleware(ThrottlingMiddleware())
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
