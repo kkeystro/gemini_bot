@@ -1,29 +1,22 @@
 from typing import Any, Awaitable, Callable, Dict
 
 from aiogram import BaseMiddleware
-from aiogram.dispatcher.flags import get_flag
-from aiogram.types import Message
-from cachetools import TTLCache
-
-from const import THROTTLE_TIME_SPIN, THROTTLE_TIME_OTHER
+from aiogram.types import Message, TelegramObject
+from db.redb import check_ul
 
 
 class ThrottlingMiddleware(BaseMiddleware):
-    caches = {
-        "spin": TTLCache(maxsize=10_000, ttl=THROTTLE_TIME_SPIN),
-        "default": TTLCache(maxsize=10_000, ttl=THROTTLE_TIME_OTHER)
-    }
 
-    async def __call__(
-            self,
-            handler: Callable[[Message, Dict[str, Any]], Awaitable[Any]],
-            event: Message,
-            data: Dict[str, Any],
-    ) -> Any:
-        throttling_key = get_flag(data, "throttling_key")
-        if throttling_key is not None and throttling_key in self.caches:
-            if event.chat.id in self.caches[throttling_key]:
-                return
-            else:
-                self.caches[throttling_key][event.chat.id] = None
+    async def __call__(self,
+                       handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]],
+                       event: Message,
+                       data: Dict[str, Any]
+                       ) -> Any:
+        user = str(event.from_user.id)
+
+        check_user = await check_ul(user)
+
+        if check_user:
+            return await event.answer('Wait a little')
+
         return await handler(event, data)

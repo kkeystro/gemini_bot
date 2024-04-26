@@ -1,4 +1,4 @@
-from keys.requests import add_api_key, get_good_key
+from keys.requests import add_api_key, show_good_keys
 from keys.checker import check_key
 from aiogram import Router, F, types
 from aiogram.filters import Command
@@ -11,6 +11,7 @@ router = Router()
 @router.message(Command("start"))
 async def cmd_start(message: Message):
     await storage.delkey(key=str(message.from_user.id))
+    await storage.set_ul(str(message.from_user.id))
     await message.answer(
         "Добро пожаловать в мир генеративного ИИ",
     )
@@ -39,5 +40,5 @@ async def cmd_add(message: Message):
 @router.message(Command("get"))
 async def cmd_add(message: Message):
     await message.answer(
-        await get_good_key(),
+        await show_good_keys(),
     )

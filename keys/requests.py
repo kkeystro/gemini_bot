@@ -37,6 +37,21 @@ async def get_good_key():
     return "High load, please wait"
 
 
+async def show_good_keys():
+    async with Session() as session:
+        async with session.begin():
+            result = await session.execute(
+                select(APIKeyUsage).filter(
+                    (func.strftime('%s', 'now') - APIKeyUsage.last_usage_time) > 30,
+                    APIKeyUsage.usage_count_24h <= 1000
+                ).order_by(APIKeyUsage.last_usage_time.asc())
+            )
+            key_usage = result.scalars().fetchall()
+            if key_usage:
+                return str(key_usage)
+    return "High load, please wait"
+
+
 async def reset_daily_counts():
     async with Session() as session:
         async with session.begin():

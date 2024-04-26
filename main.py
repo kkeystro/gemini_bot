@@ -7,7 +7,6 @@ import sys
 from keys.models import setup_db
 from routers import mainpatcher, commands
 from config_reader import config
-
 from middlewares.userlock import ThrottlingMiddleware
 
 
