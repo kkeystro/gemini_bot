@@ -24,7 +24,7 @@ async def unlock(key: str):
 
 
 async def check_ul(key: str):
-    if await client.get(key + '_ul') == 1:
+    if await client.get(key + '_ul') == b'1':
         return True
     else:
         return False

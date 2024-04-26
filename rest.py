@@ -8,7 +8,7 @@ from keys.requests import get_good_key as key
 async def generate_text(uid):
     akey=str(await key())
     if akey != "High load, please wait 30 seconds":
-        api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={akey}"
+        api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key={akey}"
     else:
         return "High load, please wait 30 seconds"
     headers = {

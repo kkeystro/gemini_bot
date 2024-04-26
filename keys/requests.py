@@ -26,7 +26,7 @@ async def get_good_key():
         async with session.begin():
             result = await session.execute(
                 select(APIKeyUsage).filter(
-                    (func.strftime('%s', 'now') - APIKeyUsage.last_usage_time) > 30,
+                    (func.strftime('%s', 'now') - APIKeyUsage.last_usage_time) > 3,
                     APIKeyUsage.usage_count_24h <= 1000
                 ).order_by(APIKeyUsage.last_usage_time.asc())
             )

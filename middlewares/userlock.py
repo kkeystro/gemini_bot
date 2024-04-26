@@ -15,8 +15,7 @@ class ThrottlingMiddleware(BaseMiddleware):
         user = str(event.from_user.id)
 
         check_user = await check_ul(user)
-
+        print(check_user)
         if check_user:
-            return await event.answer('Wait a little')
-
+            return event.answer('Be more patient')
         return await handler(event, data)

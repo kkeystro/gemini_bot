@@ -11,9 +11,9 @@ router = Router()
 @router.message(Command("start"))
 async def cmd_start(message: Message):
     await storage.delkey(key=str(message.from_user.id))
-    await storage.set_ul(str(message.from_user.id))
+    await storage.unlock(str(message.from_user.id))
     await message.answer(
-        "Добро пожаловать в мир генеративного ИИ",
+        "Welcome to the brave new world!",
     )
 
 
@@ -21,7 +21,7 @@ async def cmd_start(message: Message):
 async def cmd_clear(message: Message):
     await storage.delkey(key=str(message.from_user.id))
     await message.answer(
-        "История очищена",
+        "Hystory cleared",
     )
 
 
@@ -31,10 +31,10 @@ async def cmd_add(message: Message):
     if await check_key(command_text):
         await add_api_key(command_text)
         await message.answer(
-            "Ключ добавлен",
+            "Key added",
         )
     else:
-        await message.answer("Ключ недействителен")
+        await message.answer("Bad key")
 
 
 @router.message(Command("get"))
