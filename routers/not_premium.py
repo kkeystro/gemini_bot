@@ -5,11 +5,13 @@ from rest import generate_text
 import db.redb as storage
 from serialiser import serialise as s
 from mdfuck import escape_markdown_v2
+from fucked_state_machine import UserStates
+
 
 router = Router()
 
 
-@router.message(F.text)
+@router.message(UserStates.user_not_premium, F.text)
 async def message_with_text(message: Message):
     await storage.set_ul(str(message.from_user.id))
     msg = await message.answer("Generating...")

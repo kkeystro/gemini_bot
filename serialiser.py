@@ -19,6 +19,7 @@ def serialise(input_text, role, image=''):
             {
                 "inline_data":
                     {
+                        "mimeType": "image/jpeg",
                         "data": str(image)
                     }
             }
