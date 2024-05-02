@@ -6,3 +6,4 @@ class UserStates(StatesGroup):
     adding_key = State()
     user_not_premium = State()
     user_premium = State()
+    trying_to_pay = State()
