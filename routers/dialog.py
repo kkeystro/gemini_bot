@@ -1,12 +1,13 @@
 import traceback
+
 from aiogram import Router, F
 from aiogram.types import Message
-from rest import generate_text
-import db.redb as storage
-from serialiser import serialise as s
-from mdfuck import escape_markdown_v2
-from fucked_state_machine import UserStates
 
+import db.redb as storage
+from fucked_state_machine import UserStates
+from mdfuck import escape_markdown_v2
+from rest import generate_text
+from serialiser import serialise as s
 
 router = Router()
 

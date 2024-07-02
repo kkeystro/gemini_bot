@@ -1,27 +1,11 @@
 import json as j
 
 
-def serialise(input_text, role, image=''):
-    if image == '':
-        return j.dumps({
-            "parts": [
-                {
-                    "text": input_text
-                }
-            ],
-            "role": role
-        }, )
+def serialise(input_text, role):
     return j.dumps({
         "parts": [
             {
                 "text": input_text
-            },
-            {
-                "inline_data":
-                    {
-                        "mimeType": "image/jpeg",
-                        "data": str(image)
-                    }
             }
         ],
         "role": role

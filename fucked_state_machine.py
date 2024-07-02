@@ -5,5 +5,3 @@ class UserStates(StatesGroup):
     choosing_not_to_pay = State()
     adding_key = State()
     user_not_premium = State()
-    user_premium = State()
-    trying_to_pay = State()

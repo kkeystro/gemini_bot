@@ -2,7 +2,7 @@ import asyncio
 import time
 from keys.models import APIKeyUsage, Session
 from sqlalchemy import func, select, update
-
+import aioschedule
 
 async def add_api_key(api_key):
     async with Session() as session:
@@ -61,6 +61,7 @@ async def reset_daily_counts():
 
 
 async def auto_reset_daily_counts():
+    aioschedule.every().day.at("00:00").do(reset_daily_counts())
     while True:
-        await asyncio.sleep(86400)  # Ждем 24 часа (86400 секунд)
-        await reset_daily_counts()
+        await aioschedule.run_pending()
+        await asyncio.sleep(1)

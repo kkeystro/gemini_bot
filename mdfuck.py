@@ -1,52 +1,38 @@
-import markdown2
 import re
 
+import markdown2
+from bs4 import BeautifulSoup
 
-def clean_html(html):
-    # Pattern to identify all HTML tags
-    tag_pattern = re.compile(r'<(/?\w+)([^>]*?)>')
 
-    # Supported tags and their allowed formats
-    supported_tags = {
-        'b': '',
-        'strong': '',
-        'i': '',
-        'em': '',
-        'u': '',
-        'ins': '',
-        's': '',
-        'strike': '',
-        'del': '',
-        'a': ['href'],
-        'code': '',
-        'pre': '',
-        'span': ['class="tg-spoiler"'],
-        'tg-spoiler': '',
-        'tg-emoji': ['emoji-id']
-    }
+def clean_html(html_text):
+    # Список поддерживаемых HTML тегов в aiogram
+    supported_tags = ['b', 'strong', 'i', 'em', 'u', 's', 'strike', 'del', 'ins', 'a', 'code', 'pre']
 
-    # Function to check if tag is supported
-    def tag_allowed(tag, attrs):
-        if tag not in supported_tags:
-            return False
-        if isinstance(supported_tags[tag], str):
-            return supported_tags[tag] == attrs.strip()
-        else:
-            attr_pattern = re.compile(r'(\w+)="([^"]+)"')
-            for attr, value in attr_pattern.findall(attrs):
-                if f'{attr}="{value}"' not in supported_tags[tag]:
-                    return False
-            return True
+    # Сначала защитим выражения вроде "if a <b and b>c"
+    protected_expressions = []
 
-    # Replace or keep tags based on whether they're supported
-    def replace_tag(match):
-        tag, attrs = match.groups()
-        tag_name = tag.strip('/')
-        if tag_allowed(tag_name, attrs):
-            return f'<{tag}{attrs}>'
-        return ''
+    def protect_expression(match):
+        protected_expressions.append(match.group())
+        return f"PROTECTED_EXPRESSION_{len(protected_expressions) - 1}"
 
-    return tag_pattern.sub(replace_tag, html)
+    html_text = re.sub(r'\b\w+\s*[<>]\s*\w+(\s+(and|or)\s+\w+\s*[<>]\s*\w+)*', protect_expression, html_text)
+
+    # Парсим HTML
+    soup = BeautifulSoup(html_text, 'html.parser')
+
+    # Удаляем неподдерживаемые теги, сохраняя их содержимое
+    for tag in soup.find_all():
+        if tag.name not in supported_tags:
+            tag.unwrap()
+
+    # Преобразуем обратно в строку
+    cleaned_html = str(soup)
+
+    # Восстанавливаем защищенные выражения
+    for i, expr in enumerate(protected_expressions):
+        cleaned_html = cleaned_html.replace(f"PROTECTED_EXPRESSION_{i}", expr)
+
+    return cleaned_html
 
 
 def escape_markdown_v2(md_text):

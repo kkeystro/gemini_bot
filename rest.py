@@ -1,12 +1,14 @@
-import aiohttp
 import json
+
+import aiohttp
+
 import db.redb as storage
-from serialiser import deserialise as d
 from keys.requests import get_good_key as key
+from serialiser import deserialise as d
 
 
 async def generate_text(uid):
-    akey=str(await key())
+    akey = str(await key())
     if akey != "High load, please wait 30 seconds":
         api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key={akey}"
     else:
@@ -33,7 +35,7 @@ async def generate_text(uid):
                         if text_parts:
                             return ''.join(text_parts)
                         else:
-                            return "Ur momma gay"
+                            return "Moderation error"
                 else:
                     print("Error:", response.status, await response.text())
                     return "Error"
